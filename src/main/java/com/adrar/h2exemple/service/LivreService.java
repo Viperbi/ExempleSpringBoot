@@ -1,10 +1,15 @@
 package com.adrar.h2exemple.service;
 
+import com.adrar.h2exemple.dto.LivreDto;
+import com.adrar.h2exemple.exception.SaveLivreExistException;
+import com.adrar.h2exemple.exception.UpdateLivreNotFoundException;
 import com.adrar.h2exemple.model.Livre;
 import com.adrar.h2exemple.repository.LivreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,6 +17,9 @@ public class LivreService {
 
     @Autowired
     private LivreRepository livreRepository;
+
+    @Autowired
+    private LivreDtoWrapper livreDtoWrapper;
 
     //Méthode qui retourne tous les objets Livre
     public Iterable<Livre> getAll(){
@@ -28,6 +36,9 @@ public class LivreService {
     }
     //Méthode qui ajoute un Livre
     public Livre add(Livre livre){
+        if(livreRepository.findByTitreAndDescription(livre.getTitre(), livre.getDescription())) {
+            throw  new SaveLivreExistException(livre);
+        }
         return livreRepository.save(livre);
     }
 
@@ -43,10 +54,25 @@ public class LivreService {
     //Méthode qui met à jour un Livre
     public Livre update(Livre livre, int id){
         if(!livreRepository.existsById(id)) {
-            livre.setTitre("Livre introuvable");
-            return livre;
+            throw new UpdateLivreNotFoundException(id);
         }
         livre.setId(id);
         return livreRepository.save(livre);
+    }
+
+    public List<LivreDto> getAllLivresDto() {
+        List<LivreDto> listDto = new ArrayList<>();
+        for(Livre livre : getAll()){
+            listDto.add(livreDtoWrapper.toDto(livre));
+        }
+        return listDto;
+    }
+
+    public Optional<LivreDto> getLivreDtoById(int id) {
+        Livre livre = getById(id).orElseThrow(
+                ()-> new UpdateLivreNotFoundException(id)
+        );
+        LivreDtoWrapper livreDtoWrapper = new LivreDtoWrapper();
+        return Optional.of(livreDtoWrapper.toDto(livre));
     }
 }

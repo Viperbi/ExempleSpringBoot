@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LivreRepository extends CrudRepository<Livre, Integer> {
+    boolean findByTitreAndDescription(String titre, String description);
 }

@@ -18,12 +18,22 @@ public class Livre {
     @Column(name = "titre", nullable = false, length = 50)
     private String titre;
 
-    @Column(name="description", nullable = false, length = 255)
+    @Column(name="content", nullable = false, length = 255)
     private String description;
+
+    @Column(name="genres", length = 50)
+    private String genres;
+
+    @Column(name="auteur", length = 50)
+    private String auteur;
+
+    @Column(name="maison_edition", length = 50)
+    private String maisonEdition;
 
     @Column(name="date_publication", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date datePublication;
+
 
     /*---------------------------------------
                   Constructeurs
@@ -70,6 +80,30 @@ public class Livre {
 
     public void setDatePublication(Date datePublication) {
         this.datePublication = datePublication;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public String getAuteur() {
+        return auteur;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+    public String getMaisonEdition() {
+        return maisonEdition;
+    }
+
+    public void setMaisonEdition(String maisonEdition) {
+        this.maisonEdition = maisonEdition;
     }
 
     /*---------------------------------------

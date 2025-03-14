@@ -1,9 +1,12 @@
 DROP TABLE IF EXISTS livre;
 CREATE TABLE livre(
-id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-titre VARCHAR(50) NOT NULL,
-content VARCHAR(255) NOT NULL,
-date_publication VARCHAR(50) NOT NULL
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    titre VARCHAR(50) NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    genre VARCHAR(50),
+    auteur VARCHAR(50),
+    maison_edition VARCHAR(50),
+    date_publication VARCHAR(50) NOT NULL
 );
 INSERT INTO livre(titre, content, date_publication) VALUES
 ('Le Petit Prince', 'Un conte poétique et philosophique', '1943-04-06'),
